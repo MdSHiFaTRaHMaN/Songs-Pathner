@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Songs Pathner — Turn Your Memories Into Custom Music</title>
+
+  <!-- Premium Google Fonts: Plus Jakarta Sans & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Premium Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          },
+          colors: {
+            brand: {
+              bg: '#F7F5FF',
+              navy: '#131026',
+              navyLight: '#1E1A38',
+              violet: '#7445FF',
+              violetDark: '#5B2CEB',
+              lime: '#D4FF4D',
+              limeDark: '#BEEE2E',
+              lavender: '#ECE6FF',
+              pink: '#FFE9F4',
+              softLime: '#EAFFAE',
+            }
+          },
+          boxShadow: {
+            'soft': '0 10px 40px -10px rgba(19, 16, 38, 0.08)',
+            'glow': '0 20px 50px -15px rgba(116, 69, 255, 0.35)',
+            'card': '0 25px 60px -15px rgba(19, 16, 38, 0.28)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #F7F5FF;
+      color: #131026;
+      overflow-x: hidden;
+    }
+
+    /* Smooth Infinite Marquee */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+
+    /* Floating Animations for Hero */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(3deg); }
+      50% { transform: translateY(-10px) rotate(4deg); }
+    }
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-7px); }
+    }
+    .animate-float-card {
+      animation: floatSlow 6s ease-in-out infinite;
+    }
+    .animate-float-badge {
+      animation: floatBadge 4.5s ease-in-out infinite;
+    }
+
+    /* Audio Waveform Animation */
+    @keyframes wave {
+      0%, 100% { transform: scaleY(0.35); }
+      50% { transform: scaleY(1); }
+    }
+    .wave-bar {
+      transform-origin: center;
+      transition: all 0.3s ease;
+    }
+    .is-playing .wave-bar {
+      animation: wave 0.9s ease-in-out infinite;
+    }
+
+    /* Scroll Reveal Utility */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Subtle radial highlight in dark featured card */
+    .featured-glow {
+      background: radial-gradient(circle at 65% 25%, rgba(154, 108, 255, 0.55) 0%, rgba(74, 46, 143, 0.35) 38%, rgba(25, 21, 50, 0.95) 85%);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-brand-violet selection:text-white">
+
+  <!-- ==================== TOP ANNOUNCEMENT BAR ==================== -->
+  <div class="bg-brand-lime text-brand-navy text-[11px] sm:text-xs font-extrabold tracking-widest uppercase py-2.5 px-4 text-center">
+    <span class="inline-flex items-center gap-2">
+      <span>A LITTLE MUSIC. A LIFETIME OF MEMORIES.</span>
+      <span class="w-1.5 h-1.5 rounded-full bg-brand-navy inline-block"></span>
+      <span>CREATE SOMETHING PERSONAL TODAY</span>
+    </span>
+  </div>
+
+  <!-- ==================== STICKY NAVBAR ==================== -->
+  <header class="sticky top-0 z-40 bg-brand-bg/85 backdrop-blur-lg border-b border-brand-navy/5">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo: Songs Pathner -->
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-violet to-fuchsia-500 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+          <i data-lucide="music-2" class="w-5 h-5"></i>
+        </div>
+        <span class="text-xl font-extrabold tracking-tight text-brand-navy">
+          Songs<span class="text-brand-violet">Pathner</span>
+        </span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-brand-navy/75">
+        <a href="#how-it-works" class="hover:text-brand-violet transition-colors">How it works</a>
+        <a href="#real-stories" class="hover:text-brand-violet transition-colors">Real stories</a>
+        <a href="#occasions" class="hover:text-brand-violet transition-colors">Occasions</a>
+        <a href="#reviews" class="hover:text-brand-violet transition-colors">Reviews</a>
+      </nav>
+
+      <!-- Desktop CTA & Mobile Menu Toggle -->
+      <div class="flex items-center gap-3">
+        <button onclick="openSongModal()" class="hidden sm:inline-flex items-center gap-2 bg-brand-violet hover:bg-brand-violetDark text-white text-sm font-bold px-5 py-2.5 rounded-full shadow-glow transition-all hover:-translate-y-0.5 active:translate-y-0">
+          <span>Make a song</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </button>
+
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-xl bg-white border border-brand-navy/10 text-brand-navy">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-brand-navy/10 px-6 py-5 space-y-4">
+      <div class="flex flex-col space-y-3 text-sm font-semibold text-brand-navy">
+        <a href="#how-it-works" class="mobile-link hover:text-brand-violet">How it works</a>
+        <a href="#real-stories" class="mobile-link hover:text-brand-violet">Real stories</a>
+        <a href="#occasions" class="mobile-link hover:text-brand-violet">Occasions</a>
+        <a href="#reviews" class="mobile-link hover:text-brand-violet">Reviews</a>
+      </div>
+      <button onclick="openSongModal()" class="w-full inline-flex justify-center items-center gap-2 bg-brand-violet text-white text-sm font-bold px-5 py-3 rounded-full">
+        <span>Make a song</span>
+        <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="relative pt-14 pb-20 lg:pt-20 lg:pb-28 overflow-hidden">
+    <!-- Subtle Ambient Background Blobs -->
+    <div class="absolute top-10 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-brand-violet/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto px-5 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-8 items-center">
+      
+      <!-- Left Content -->
+      <div class="lg:col-span-6 space-y-7 relative z-10">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-brand-violet/15 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-brand-violet animate-pulse"></span>
+          <span class="text-[11px] font-bold tracking-widest uppercase text-brand-violet">Your Story, Turned Into Music</span>
+        </div>
+
+        <h1 class="text-5xl sm:text-6xl lg:text-[64px] font-extrabold text-brand-navy leading-[1.06] tracking-tight">
+          Some moments deserve more than <span class="font-serif italic font-medium text-brand-violet">words.</span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-brand-navy/65 max-w-md leading-relaxed font-medium">
+          Turn the little details, inside jokes, and unforgettable memories into a one-of-a-kind song made just for someone special.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-5 pt-1">
+          <button onclick="openSongModal()" class="inline-flex items-center gap-2.5 bg-brand-violet hover:bg-brand-violetDark text-white font-bold text-sm sm:text-base px-7 py-3.5 rounded-full shadow-glow transition-all hover:-translate-y-0.5">
+            <span>Create your song</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </button>
+
+          <a href="#how-it-works" class="inline-flex items-center gap-1.5 text-sm font-bold text-brand-navy border-b-2 border-brand-navy/25 hover:border-brand-violet hover:text-brand-violet pb-0.5 transition-colors">
+            See how it works
+          </a>
+        </div>
+
+        <p class="text-xs font-medium text-brand-navy/45 flex items-center gap-2 pt-1">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-violet"></i>
+          Studio-quality songs crafted by real storytellers & musicians.
+        </p>
+      </div>
+
+      <!-- Right Visual Card Showcase -->
+      <div class="lg:col-span-6 relative flex items-center justify-center py-6">
+        <!-- Soft Pastel Aura Circle -->
+        <div class="w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-gradient-to-tr from-brand-lavender via-pink-200/70 to-brand-violet/25 border border-white/80 shadow-inner flex items-center justify-center relative">
+          
+          <!-- Floating Top-Left Pill -->
+          <div class="animate-float-badge absolute -top-2 -left-4 sm:-left-10 z-20 bg-white/95 backdrop-blur px-4 py-2 rounded-full shadow-soft border border-brand-navy/5 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-pink-500"></span>
+            <span class="text-xs font-bold text-brand-navy">A song from your memories</span>
+          </div>
+
+          <!-- Main Tilted Midnight Song Card -->
+          <div id="hero-player-card" class="animate-float-card relative z-10 w-64 sm:w-72 rounded-[28px] bg-brand-navy text-white p-7 shadow-card border border-white/10">
+            <div class="flex items-center justify-between mb-6">
+              <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-white/55">Songs Pathner / Original</span>
+              <i data-lucide="disc-3" class="w-4 h-4 text-brand-lime animate-spin" style="animation-duration: 9s;"></i>
+            </div>
+
+            <h3 class="font-serif text-3xl sm:text-[34px] leading-[1.12] font-medium mb-8">
+              Your story<br>has a<br><span class="italic text-brand-lime">sound.</span>
+            </h3>
+
+            <!-- Interactive Audio Waveform -->
+            <div id="hero-waveform" class="flex items-center justify-center gap-1.5 h-12 mb-6">
+              <span class="wave-bar w-1.5 h-4 rounded-full bg-brand-violet/70" style="animation-delay: 0.05s"></span>
+              <span class="wave-bar w-1.5 h-8 rounded-full bg-fuchsia-400" style="animation-delay: 0.15s"></span>
+              <span class="wave-bar w-1.5 h-6 rounded-full bg-brand-violet" style="animation-delay: 0.25s"></span>
+              <span class="wave-bar w-1.5 h-11 rounded-full bg-pink-400" style="animation-delay: 0.1s"></span>
+              <span class="wave-bar w-1.5 h-9 rounded-full bg-brand-violet" style="animation-delay: 0.35s"></span>
+              <span class="wave-bar w-1.5 h-12 rounded-full bg-brand-lime" style="animation-delay: 0.2s"></span>
+              <span class="wave-bar w-1.5 h-7 rounded-full bg-fuchsia-400" style="animation-delay: 0.4s"></span>
+              <span class="wave-bar w-1.5 h-10 rounded-full bg-brand-violet" style="animation-delay: 0.12s"></span>
+              <span class="wave-bar w-1.5 h-5 rounded-full bg-pink-400" style="animation-delay: 0.3s"></span>
+              <span class="wave-bar w-1.5 h-8 rounded-full bg-brand-violet/80" style="animation-delay: 0.22s"></span>
+              <span class="wave-bar w-1.5 h-4 rounded-full bg-fuchsia-400/70" style="animation-delay: 0.08s"></span>
+            </div>
+
+            <div class="flex items-center justify-between text-[11px] text-white/50 font-medium pt-2 border-t border-white/10">
+              <span>Tap play to feel the vibe</span>
+              <span id="hero-time">0:00</span>
+            </div>
+          </div>
+
+          <!-- Floating Pink Play Button -->
+          <button onclick="toggleTrack('hero')" id="btn-hero" aria-label="Play hero preview" class="absolute bottom-6 -left-2 sm:left-0 z-30 w-14 h-14 rounded-full bg-gradient-to-tr from-pink-500 to-rose-400 text-white shadow-lg shadow-pink-500/35 flex items-center justify-center hover:scale-110 active:scale-95 transition-transform">
+            <i data-lucide="play" class="w-6 h-6 fill-current ml-0.5"></i>
+          </button>
+
+          <!-- Floating Bottom-Right Lime Pill -->
+          <div class="animate-float-badge absolute -bottom-2 -right-3 sm:-right-8 z-20 bg-brand-lime text-brand-navy px-4 py-2 rounded-full shadow-md flex items-center gap-1.5" style="animation-delay: 1.2s;">
+            <i data-lucide="music" class="w-3.5 h-3.5"></i>
+            <span class="text-xs font-extrabold">One song. Just for them.</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DARK MARQUEE RIBBON ==================== -->
+  <div class="bg-brand-navy py-4 overflow-hidden border-y border-white/5">
+    <div class="animate-marquee flex items-center gap-10 text-[11px] sm:text-xs font-bold tracking-[0.22em] uppercase text-white/90">
+      <!-- Set 1 -->
+      <div class="flex items-center gap-10">
+        <span>Real Stories</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>True Feelings</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>Original Music</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>Personalized Lyrics</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>Studio Quality</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>Fast Delivery</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>100% Heartfelt</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+      </div>
+      <!-- Set 2 (Seamless Loop) -->
+      <div class="flex items-center gap-10" aria-hidden="true">
+        <span>Real Stories</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>True Feelings</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>Original Music</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>Personalized Lyrics</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>Studio Quality</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>Fast Delivery</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        <span>100% Heartfelt</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== HOW IT WORKS (4-STEP PROCESS) ==================== -->
+  <section id="how-it-works" class="py-20 lg:py-28">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6">
+      
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <span class="text-[11px] font-extrabold tracking-[0.2em] uppercase text-brand-violet">A Simple 4-Step Process</span>
+          <h2 class="mt-2.5 text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-brand-navy leading-tight tracking-tight">
+            From your head<br>to their headphones.
+          </h2>
+        </div>
+        <p class="text-sm sm:text-base text-brand-navy/60 max-w-sm font-medium leading-relaxed">
+          No musical talent required. Share a few heartfelt notes, and our team turns them into an unforgettable track.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Step 1 -->
+        <div class="reveal bg-white rounded-3xl p-7 border border-brand-navy/5 shadow-soft hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between min-h-[220px]">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-extrabold tracking-widest uppercase text-brand-navy/45">01 / The Story</span>
+            <div class="w-9 h-9 rounded-xl bg-brand-bg flex items-center justify-center text-brand-navy">
+              <i data-lucide="pen-line" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="mt-8">
+            <h3 class="text-lg font-extrabold text-brand-navy mb-2">Tell us the details</h3>
+            <p class="text-xs sm:text-sm text-brand-navy/60 leading-relaxed">Share who the song is for, favorite memories, funny moments, and what makes them special.</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="reveal bg-brand-lavender rounded-3xl p-7 border border-brand-violet/10 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between min-h-[220px]" style="transition-delay: 80ms;">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-extrabold tracking-widest uppercase text-brand-violet/80">02 / The Lyrics</span>
+            <div class="w-9 h-9 rounded-xl bg-white/70 flex items-center justify-center text-brand-violet">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="mt-8">
+            <h3 class="text-lg font-extrabold text-brand-navy mb-2">Make it personal</h3>
+            <p class="text-xs sm:text-sm text-brand-navy/65 leading-relaxed">We weave your exact names, inside jokes, and emotions into lyrics that feel truly yours.</p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="reveal bg-brand-pink rounded-3xl p-7 border border-pink-300/25 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between min-h-[220px]" style="transition-delay: 160ms;">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-extrabold tracking-widest uppercase text-pink-600/80">03 / The Sound</span>
+            <div class="w-9 h-9 rounded-xl bg-white/70 flex items-center justify-center text-pink-600">
+              <i data-lucide="sliders" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="mt-8">
+            <h3 class="text-lg font-extrabold text-brand-navy mb-2">Choose your vibe</h3>
+            <p class="text-xs sm:text-sm text-brand-navy/65 leading-relaxed">Acoustic warmth, upbeat pop, soulful R&B, or cinematic ballad—pick the mood and vocal style.</p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="reveal bg-brand-softLime rounded-3xl p-7 border border-lime-500/20 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between min-h-[220px]" style="transition-delay: 240ms;">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-extrabold tracking-widest uppercase text-lime-800/75">04 / The Surprise</span>
+            <div class="w-9 h-9 rounded-xl bg-white/70 flex items-center justify-center text-lime-800">
+              <i data-lucide="gift" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div class="mt-8">
+            <h3 class="text-lg font-extrabold text-brand-navy mb-2">Make their day</h3>
+            <p class="text-xs sm:text-sm text-brand-navy/70 leading-relaxed">Get your finished studio track delivered digitally, ready to play, download, and treasure forever.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== DARK SHOWCASE: REAL STORIES ==================== -->
+  <section id="real-stories" class="bg-brand-navy py-20 lg:py-28 text-white relative overflow-hidden">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6 relative z-10">
+
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <span class="text-[11px] font-extrabold tracking-[0.2em] uppercase text-brand-lime">Not Just A Song. Pure Emotion.</span>
+          <h2 class="mt-2.5 text-3xl sm:text-4xl lg:text-[42px] font-extrabold leading-tight tracking-tight">
+            Press play on<br>the good stuff.
+          </h2>
+        </div>
+        <p class="text-sm sm:text-base text-white/60 max-w-sm leading-relaxed">
+          Tap any story below to preview the warmth, melody, and magic of a custom Songs Pathner track.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left Featured Customer Moment -->
+        <div class="reveal lg:col-span-6 featured-glow rounded-[30px] p-8 sm:p-10 border border-white/10 relative overflow-hidden flex flex-col justify-between min-h-[380px]">
+          <!-- Decorative Watermark Music Note -->
+          <i data-lucide="music" class="w-44 h-44 text-white/[0.06] absolute top-6 right-4 pointer-events-none"></i>
+
+          <div class="relative z-10">
+            <span class="inline-block text-[10px] font-extrabold tracking-[0.2em] uppercase text-brand-lime bg-white/10 px-3 py-1 rounded-full">
+              Featured Customer Moment
+            </span>
+          </div>
+
+          <div class="relative z-10 mt-10">
+            <blockquote class="font-serif text-3xl sm:text-4xl leading-[1.2] text-white mb-6">
+              “I didn’t know a song could make me feel this much.”
+            </blockquote>
+            <p class="text-sm text-white/65 max-w-md leading-relaxed mb-6">
+              A 10th anniversary surprise filled with coffee-shop mornings, road-trip laughs, and promises for the next decade.
+            </p>
+            <button onclick="openSongModal('Anniversary')" class="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-brand-lime hover:text-white transition-colors">
+              <span>Make your own moment</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right 2x2 Interactive Audio Cards -->
+        <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
+          
+          <!-- Track 1: For my wife -->
+          <div onclick="toggleTrack('wife')" id="card-wife" class="reveal cursor-pointer group bg-brand-navyLight hover:bg-[#252046] rounded-[24px] p-4 border border-white/10 hover:border-brand-violet/60 transition-all">
+            <div class="h-28 rounded-2xl bg-gradient-to-br from-pink-300 via-purple-400 to-brand-violet flex items-center justify-center relative overflow-hidden">
+              <div class="w-11 h-11 rounded-full bg-white/25 backdrop-blur-md flex items-center justify-center text-white group-hover:scale-110 transition-transform" id="icon-wife">
+                <i data-lucide="heart" class="w-5 h-5"></i>
+              </div>
+              <span class="absolute bottom-2.5 right-2.5 text-[10px] font-bold bg-brand-navy/50 backdrop-blur px-2.5 py-1 rounded-full text-white flex items-center gap-1">
+                <i data-lucide="volume-2" class="w-3 h-3"></i> Preview
+              </span>
+            </div>
+            <div class="pt-4 px-1 flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-base text-white">For my wife</h3>
+                <p class="text-xs text-white/50 mt-0.5">Warm acoustic love song</p>
+              </div>
+              <div class="play-badge w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-brand-lime group-hover:text-brand-navy transition-colors">
+                <i data-lucide="play" class="w-3.5 h-3.5 fill-current ml-0.5"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track 2: For my father -->
+          <div onclick="toggleTrack('father')" id="card-father" class="reveal cursor-pointer group bg-brand-navyLight hover:bg-[#252046] rounded-[24px] p-4 border border-white/10 hover:border-brand-lime/60 transition-all" style="transition-delay: 80ms;">
+            <div class="h-28 rounded-2xl bg-gradient-to-br from-brand-lime via-emerald-300 to-teal-400 flex items-center justify-center relative overflow-hidden">
+              <div class="w-11 h-11 rounded-full bg-brand-navy/20 backdrop-blur-md flex items-center justify-center text-brand-navy group-hover:scale-110 transition-transform" id="icon-father">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+              </div>
+              <span class="absolute bottom-2.5 right-2.5 text-[10px] font-bold bg-brand-navy/50 backdrop-blur px-2.5 py-1 rounded-full text-white flex items-center gap-1">
+                <i data-lucide="volume-2" class="w-3 h-3"></i> Preview
+              </span>
+            </div>
+            <div class="pt-4 px-1 flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-base text-white">For my father</h3>
+                <p class="text-xs text-white/50 mt-0.5">Heartfelt folk tribute</p>
+              </div>
+              <div class="play-badge w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-brand-lime group-hover:text-brand-navy transition-colors">
+                <i data-lucide="play" class="w-3.5 h-3.5 fill-current ml-0.5"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track 3: For my best friend -->
+          <div onclick="toggleTrack('friend')" id="card-friend" class="reveal cursor-pointer group bg-brand-navyLight hover:bg-[#252046] rounded-[24px] p-4 border border-white/10 hover:border-rose-400/60 transition-all" style="transition-delay: 140ms;">
+            <div class="h-28 rounded-2xl bg-gradient-to-br from-amber-300 via-orange-400 to-rose-500 flex items-center justify-center relative overflow-hidden">
+              <div class="w-11 h-11 rounded-full bg-white/25 backdrop-blur-md flex items-center justify-center text-white group-hover:scale-110 transition-transform" id="icon-friend">
+                <i data-lucide="music" class="w-5 h-5"></i>
+              </div>
+              <span class="absolute bottom-2.5 right-2.5 text-[10px] font-bold bg-brand-navy/50 backdrop-blur px-2.5 py-1 rounded-full text-white flex items-center gap-1">
+                <i data-lucide="volume-2" class="w-3 h-3"></i> Preview
+              </span>
+            </div>
+            <div class="pt-4 px-1 flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-base text-white">For my best friend</h3>
+                <p class="text-xs text-white/50 mt-0.5">Upbeat feel-good indie pop</p>
+              </div>
+              <div class="play-badge w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-brand-lime group-hover:text-brand-navy transition-colors">
+                <i data-lucide="play" class="w-3.5 h-3.5 fill-current ml-0.5"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Track 4: For my little one -->
+          <div onclick="toggleTrack('littleone')" id="card-littleone" class="reveal cursor-pointer group bg-brand-navyLight hover:bg-[#252046] rounded-[24px] p-4 border border-white/10 hover:border-sky-400/60 transition-all" style="transition-delay: 200ms;">
+            <div class="h-28 rounded-2xl bg-gradient-to-br from-sky-300 via-indigo-400 to-violet-500 flex items-center justify-center relative overflow-hidden">
+              <div class="w-11 h-11 rounded-full bg-white/25 backdrop-blur-md flex items-center justify-center text-white group-hover:scale-110 transition-transform" id="icon-littleone">
+                <i data-lucide="sun" class="w-5 h-5"></i>
+              </div>
+              <span class="absolute bottom-2.5 right-2.5 text-[10px] font-bold bg-brand-navy/50 backdrop-blur px-2.5 py-1 rounded-full text-white flex items-center gap-1">
+                <i data-lucide="volume-2" class="w-3 h-3"></i> Preview
+              </span>
+            </div>
+            <div class="pt-4 px-1 flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-base text-white">For my little one</h3>
+                <p class="text-xs text-white/50 mt-0.5">Gentle dreamy lullaby</p>
+              </div>
+              <div class="play-badge w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white group-hover:bg-brand-lime group-hover:text-brand-navy transition-colors">
+                <i data-lucide="play" class="w-3.5 h-3.5 fill-current ml-0.5"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== SOCIAL PROOF & STATS ==================== -->
+  <section id="reviews" class="py-16 lg:py-24">
+    <div class="max-w-5xl mx-auto px-5 sm:px-6 space-y-5">
+      
+      <!-- Review White Card -->
+      <div class="reveal bg-white rounded-[30px] p-8 sm:p-12 shadow-soft border border-brand-navy/5 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-4 md:border-r border-brand-navy/10 md:pr-8">
+          <div class="flex items-center gap-1 text-brand-violet mb-3">
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+          </div>
+          <div class="text-4xl sm:text-5xl font-extrabold text-brand-navy tracking-tight">4.9/5</div>
+          <p class="text-xs font-semibold text-brand-navy/50 mt-1.5">Loved by thousands of happy gifters</p>
+        </div>
+
+        <div class="md:col-span-8">
+          <blockquote class="font-serif text-2xl sm:text-[26px] text-brand-navy leading-snug">
+            “My partner absolutely loves the song. It brought back so many memories. It felt like it was made just for us.”
+          </blockquote>
+          <p class="text-xs font-bold text-brand-navy/50 mt-4 uppercase tracking-wider">— Sarah Rahman, Verified Buyer</p>
+        </div>
+      </div>
+
+      <!-- Stats Lavender Strip -->
+      <div class="reveal bg-brand-lavender rounded-[24px] py-7 px-6 sm:px-10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center border border-brand-violet/10">
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-brand-violet">10,000+</div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-brand-navy/55 mt-1">Songs Created</div>
+        </div>
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-brand-violet">48h</div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-brand-navy/55 mt-1">Standard Delivery</div>
+        </div>
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-brand-violet">8h</div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-brand-navy/55 mt-1">Express Option</div>
+        </div>
+        <div>
+          <div class="text-2xl sm:text-3xl font-extrabold text-brand-violet">100%</div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-brand-navy/55 mt-1">Originality</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== OCCASIONS GRID ==================== -->
+  <section id="occasions" class="py-12 lg:py-20">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6">
+      
+      <div class="reveal flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <span class="text-[11px] font-extrabold tracking-[0.2em] uppercase text-brand-violet">Every Moment Is A Good Reason</span>
+          <h2 class="mt-2.5 text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-brand-navy leading-tight tracking-tight">
+            Who are you<br>making smile?
+          </h2>
+        </div>
+        <p class="text-sm sm:text-base text-brand-navy/60 max-w-sm font-medium leading-relaxed">
+          From milestone celebrations to quiet everyday "thank yous", a personalized song hits different.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Occasion Cards -->
+        <button onclick="openSongModal('Birthday')" class="reveal text-left bg-white hover:border-brand-violet/40 rounded-2xl p-6 border border-brand-navy/5 shadow-sm hover:shadow-soft hover:-translate-y-1 transition-all group">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="cake" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-extrabold text-brand-navy">Birthdays</h3>
+          <p class="text-xs text-brand-navy/55 mt-1">Make their day unforgettable.</p>
+        </button>
+
+        <button onclick="openSongModal('Anniversary')" class="reveal text-left bg-white hover:border-brand-violet/40 rounded-2xl p-6 border border-brand-navy/5 shadow-sm hover:shadow-soft hover:-translate-y-1 transition-all group">
+          <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-extrabold text-brand-navy">Anniversaries</h3>
+          <p class="text-xs text-brand-navy/55 mt-1">Celebrate your journey together.</p>
+        </button>
+
+        <button onclick="openSongModal('Wedding')" class="reveal text-left bg-white hover:border-brand-violet/40 rounded-2xl p-6 border border-brand-navy/5 shadow-sm hover:shadow-soft hover:-translate-y-1 transition-all group">
+          <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="gem" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-extrabold text-brand-navy">Weddings</h3>
+          <p class="text-xs text-brand-navy/55 mt-1">A first dance nobody else has.</p>
+        </button>
+
+        <button onclick="openSongModal('Mother’s Day')" class="reveal text-left bg-white hover:border-brand-violet/40 rounded-2xl p-6 border border-brand-navy/5 shadow-sm hover:shadow-soft hover:-translate-y-1 transition-all group">
+          <div class="w-10 h-10 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="flower-2" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-extrabold text-brand-navy">Mother’s Day</h3>
+          <p class="text-xs text-brand-navy/55 mt-1">Say thank you in melody.</p>
+        </button>
+
+        <button onclick="openSongModal('Father’s Day')" class="reveal text-left bg-white hover:border-brand-violet/40 rounded-2xl p-6 border border-brand-navy/5 shadow-sm hover:shadow-soft hover:-translate-y-1 transition-all group">
+          <div class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="award" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-extrabold text-brand-navy">Father’s Day</h3>
+          <p class="text-xs text-brand-navy/55 mt-1">Honor his love and wisdom.</p>
+        </button>
+
+        <button onclick="openSongModal('Graduation')" class="reveal text-left bg-white hover:border-brand-violet/40 rounded-2xl p-6 border border-brand-navy/5 shadow-sm hover:shadow-soft hover:-translate-y-1 transition-all group">
+          <div class="w-10 h-10 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-extrabold text-brand-navy">Graduations</h3>
+          <p class="text-xs text-brand-navy/55 mt-1">Toast to their next big chapter.</p>
+        </button>
+
+        <button onclick="openSongModal('Holidays')" class="reveal text-left bg-white hover:border-brand-violet/40 rounded-2xl p-6 border border-brand-navy/5 shadow-sm hover:shadow-soft hover:-translate-y-1 transition-all group">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="trees" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-extrabold text-brand-navy">Holidays & Eid</h3>
+          <p class="text-xs text-brand-navy/55 mt-1">A warm gift the whole family plays.</p>
+        </button>
+
+        <button onclick="openSongModal('Just Because')" class="reveal text-left bg-white hover:border-brand-violet/40 rounded-2xl p-6 border border-brand-navy/5 shadow-sm hover:shadow-soft hover:-translate-y-1 transition-all group">
+          <div class="w-10 h-10 rounded-xl bg-violet-100 text-brand-violet flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-extrabold text-brand-navy">Just Because</h3>
+          <p class="text-xs text-brand-navy/55 mt-1">Because love needs no date.</p>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== VALUE PROPOSITION BANNER ==================== -->
+  <section class="py-12">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6">
+      <div class="reveal bg-brand-lavender rounded-[32px] p-8 sm:p-12 lg:p-14 border border-brand-violet/10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <div class="lg:col-span-6 space-y-5">
+          <span class="text-[11px] font-extrabold tracking-[0.2em] uppercase text-brand-violet">A Gift With A Heartbeat</span>
+          <h2 class="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-brand-navy leading-[1.1] tracking-tight">
+            Forget the usual.<br>Give them <span class="font-serif italic font-medium text-brand-violet">their song.</span>
+          </h2>
+          <p class="text-sm sm:text-base text-brand-navy/65 leading-relaxed max-w-md font-medium">
+            Flowers fade and gift cards get forgotten. A custom track from Songs Pathner becomes a keepsake they will replay for years.
+          </p>
+          <div class="pt-2">
+            <button onclick="openSongModal()" class="inline-flex items-center gap-2 bg-brand-violet hover:bg-brand-violetDark text-white text-sm font-bold px-6 py-3.5 rounded-full shadow-glow transition-all hover:-translate-y-0.5">
+              <span>Start with their story</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 space-y-3.5">
+          <div class="bg-white rounded-2xl px-5 py-4 flex items-center gap-4 shadow-sm border border-brand-navy/5">
+            <span class="w-7 h-7 rounded-full bg-brand-lime text-brand-navy flex items-center justify-center shrink-0">
+              <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+            </span>
+            <span class="text-sm font-bold text-brand-navy">Their name, memories, and real details woven in</span>
+          </div>
+
+          <div class="bg-white rounded-2xl px-5 py-4 flex items-center gap-4 shadow-sm border border-brand-navy/5">
+            <span class="w-7 h-7 rounded-full bg-brand-lime text-brand-navy flex items-center justify-center shrink-0">
+              <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+            </span>
+            <span class="text-sm font-bold text-brand-navy">A unique song crafted around one special person</span>
+          </div>
+
+          <div class="bg-white rounded-2xl px-5 py-4 flex items-center gap-4 shadow-sm border border-brand-navy/5">
+            <span class="w-7 h-7 rounded-full bg-brand-lime text-brand-navy flex items-center justify-center shrink-0">
+              <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+            </span>
+            <span class="text-sm font-bold text-brand-navy">Preview your song & request tweaks before unlocking</span>
+          </div>
+
+          <div class="bg-white rounded-2xl px-5 py-4 flex items-center gap-4 shadow-sm border border-brand-navy/5">
+            <span class="w-7 h-7 rounded-full bg-brand-lime text-brand-navy flex items-center justify-center shrink-0">
+              <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+            </span>
+            <span class="text-sm font-bold text-brand-navy">A studio-grade digital gift ready to share anywhere</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BOLD PURPLE CTA BANNER ==================== -->
+  <section class="py-8">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6">
+      <div class="reveal relative overflow-hidden rounded-[32px] bg-gradient-to-r from-[#7B4CFF] via-[#6C3BF5] to-[#8A56FF] px-8 py-12 sm:p-14 text-white shadow-glow flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        <!-- Decorative Watermark -->
+        <i data-lucide="music-2" class="w-56 h-56 text-white/[0.08] absolute -bottom-10 right-1/3 pointer-events-none"></i>
+
+        <div class="relative z-10 max-w-xl">
+          <span class="text-[11px] font-extrabold tracking-[0.2em] uppercase text-white/75">Ready When You Are</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl lg:text-[44px] font-extrabold leading-[1.1] tracking-tight">
+            Let’s make something<br>they’ll never forget.
+          </h2>
+          <p class="mt-3 text-sm sm:text-base text-white/80 font-medium">
+            It takes less than 3 minutes to share your story. We handle all the music magic.
+          </p>
+        </div>
+
+        <button onclick="openSongModal()" class="relative z-10 shrink-0 inline-flex items-center gap-2 bg-brand-lime hover:bg-brand-limeDark text-brand-navy font-extrabold text-sm sm:text-base px-7 py-4 rounded-full shadow-lg transition-all hover:-translate-y-0.5">
+          <span>Create your own song</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== NEWSLETTER DARK BOX ==================== -->
+  <section class="py-8">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6">
+      <div class="reveal rounded-[28px] bg-brand-navy px-7 py-9 sm:px-12 sm:py-10 text-white flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div>
+          <h3 class="text-xl sm:text-2xl font-extrabold tracking-tight">A little inspiration in your inbox.</h3>
+          <p class="text-xs sm:text-sm text-white/60 mt-1">Get gifting ideas, sample songs, and exclusive seasonal discounts from Songs Pathner.</p>
+        </div>
+
+        <form id="newsletter-form" class="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center bg-white rounded-2xl sm:rounded-full p-1.5 gap-2 min-w-0 sm:min-w-[400px]">
+          <input type="email" id="newsletter-email" required placeholder="Enter your email address" class="flex-1 bg-transparent px-4 py-2.5 text-sm text-brand-navy placeholder:text-brand-navy/40 focus:outline-none font-medium" />
+          <button type="submit" class="inline-flex items-center justify-center gap-1.5 bg-brand-lime hover:bg-brand-limeDark text-brand-navy font-extrabold text-xs uppercase tracking-wider px-5 py-3 rounded-xl sm:rounded-full transition-colors shrink-0">
+            <span>Join the list</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="pt-14 pb-10 border-t border-brand-navy/5 mt-8">
+    <div class="max-w-6xl mx-auto px-5 sm:px-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 pb-12">
+        
+        <!-- Brand Column -->
+        <div class="lg:col-span-4 space-y-4">
+          <a href="#" class="inline-flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-violet to-fuchsia-500 flex items-center justify-center text-white">
+              <i data-lucide="music-2" class="w-4 h-4"></i>
+            </div>
+            <span class="text-lg font-extrabold tracking-tight text-brand-navy">
+              Songs<span class="text-brand-violet">Pathner</span>
+            </span>
+          </a>
+          <p class="text-xs sm:text-sm text-brand-navy/55 max-w-xs leading-relaxed">
+            Custom songs crafted around real stories, heartfelt memories, and the people who matter most in your life.
+          </p>
+        </div>
+
+        <!-- Explore -->
+        <div class="lg:col-span-3 space-y-3">
+          <h4 class="text-[11px] font-extrabold uppercase tracking-widest text-brand-navy">Explore</h4>
+          <ul class="space-y-2.5 text-sm text-brand-navy/60 font-medium">
+            <li><a href="#how-it-works" class="hover:text-brand-violet transition-colors">How it works</a></li>
+            <li><a href="#real-stories" class="hover:text-brand-violet transition-colors">Customer stories</a></li>
+            <li><a href="#reviews" class="hover:text-brand-violet transition-colors">Reviews</a></li>
+            <li><button onclick="openSongModal()" class="hover:text-brand-violet transition-colors">Create a song</button></li>
+          </ul>
+        </div>
+
+        <!-- Occasions -->
+        <div class="lg:col-span-3 space-y-3">
+          <h4 class="text-[11px] font-extrabold uppercase tracking-widest text-brand-navy">Occasions</h4>
+          <ul class="space-y-2.5 text-sm text-brand-navy/60 font-medium">
+            <li><button onclick="openSongModal('Birthday')" class="hover:text-brand-violet transition-colors">Birthday songs</button></li>
+            <li><button onclick="openSongModal('Anniversary')" class="hover:text-brand-violet transition-colors">Anniversary songs</button></li>
+            <li><button onclick="openSongModal('Wedding')" class="hover:text-brand-violet transition-colors">Wedding songs</button></li>
+            <li><button onclick="openSongModal('Mother’s Day')" class="hover:text-brand-violet transition-colors">Family tributes</button></li>
+          </ul>
+        </div>
+
+        <!-- Help -->
+        <div class="lg:col-span-2 space-y-3">
+          <h4 class="text-[11px] font-extrabold uppercase tracking-widest text-brand-navy">Help</h4>
+          <ul class="space-y-2.5 text-sm text-brand-navy/60 font-medium">
+            <li><a href="#" class="hover:text-brand-violet transition-colors">FAQ</a></li>
+            <li><a href="#" class="hover:text-brand-violet transition-colors">Contact us</a></li>
+            <li><a href="#" class="hover:text-brand-violet transition-colors">Privacy policy</a></li>
+            <li><a href="#" class="hover:text-brand-violet transition-colors">Terms of service</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-6 border-t border-brand-navy/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-brand-navy/45">
+        <p>© 2026 Songs Pathner. All rights reserved.</p>
+        <p class="flex items-center gap-1.5">Made with <i data-lucide="heart" class="w-3.5 h-3.5 text-brand-violet fill-current"></i> for meaningful moments</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== INTERACTIVE SONG BUILDER MODAL ==================== -->
+  <div id="song-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-brand-navy/70 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-[30px] max-w-lg w-full p-7 sm:p-9 shadow-2xl relative border border-brand-navy/10 animate-[fadeIn_0.25s_ease-out]">
+      <button onclick="closeSongModal()" class="absolute top-6 right-6 w-9 h-9 rounded-full bg-brand-bg hover:bg-brand-lavender flex items-center justify-center text-brand-navy transition-colors">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-lavender text-brand-violet text-[11px] font-extrabold uppercase tracking-wider mb-3">
+        <i data-lucide="music-2" class="w-3.5 h-3.5"></i> Songs Pathner Studio
+      </div>
+
+      <h3 class="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight">Tell us about your song</h3>
+      <p class="text-xs sm:text-sm text-brand-navy/60 mt-1 mb-6">Fill in a few quick details and we’ll start crafting your custom track.</p>
+
+      <form id="song-builder-form" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-brand-navy mb-1.5">Who is it for?</label>
+            <input type="text" required placeholder="e.g., My wife, Nadia" class="w-full rounded-xl border border-brand-navy/15 bg-brand-bg/50 px-3.5 py-2.5 text-sm focus:outline-none focus:border-brand-violet" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-brand-navy mb-1.5">Occasion</label>
+            <select id="modal-occasion" class="w-full rounded-xl border border-brand-navy/15 bg-brand-bg/50 px-3.5 py-2.5 text-sm focus:outline-none focus:border-brand-violet">
+              <option>Birthday</option>
+              <option>Anniversary</option>
+              <option>Wedding</option>
+              <option>Mother’s Day</option>
+              <option>Father’s Day</option>
+              <option>Graduation</option>
+              <option>Holidays</option>
+              <option>Just Because</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-brand-navy mb-1.5">Choose Music Vibe</label>
+          <div class="grid grid-cols-3 gap-2">
+            <label class="cursor-pointer">
+              <input type="radio" name="vibe" value="Acoustic" checked class="peer hidden" />
+              <div class="text-center py-2.5 rounded-xl border border-brand-navy/15 text-xs font-bold peer-checked:bg-brand-violet peer-checked:text-white peer-checked:border-brand-violet transition-all">Acoustic</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="vibe" value="Pop" class="peer hidden" />
+              <div class="text-center py-2.5 rounded-xl border border-brand-navy/15 text-xs font-bold peer-checked:bg-brand-violet peer-checked:text-white peer-checked:border-brand-violet transition-all">Upbeat Pop</div>
+            </label>
+            <label class="cursor-pointer">
+              <input type="radio" name="vibe" value="Ballad" class="peer hidden" />
+              <div class="text-center py-2.5 rounded-xl border border-brand-navy/15 text-xs font-bold peer-checked:bg-brand-violet peer-checked:text-white peer-checked:border-brand-violet transition-all">Soul Ballad</div>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-brand-navy mb-1.5">Your favorite memory or message</label>
+          <textarea rows="3" required placeholder="Share an inside joke, how you met, or what you love most about them..." class="w-full rounded-xl border border-brand-navy/15 bg-brand-bg/50 px-3.5 py-2.5 text-sm focus:outline-none focus:border-brand-violet resize-none"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-brand-violet hover:bg-brand-violetDark text-white font-extrabold text-sm py-3.5 rounded-full shadow-glow transition-all flex items-center justify-center gap-2">
+          <span>Start My Custom Song</span>
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 translate-y-24 opacity-0 transition-all duration-300 bg-brand-navy text-white px-5 py-3.5 rounded-2xl shadow-card border border-white/10 flex items-center gap-3 text-sm font-semibold">
+    <span class="w-7 h-7 rounded-full bg-brand-lime text-brand-navy flex items-center justify-center shrink-0">
+      <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+    </span>
+    <span id="toast-message">Success!</span>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // ---- Mobile Menu Toggle ----
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // ---- Scroll Reveal Animation ----
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ---- Toast Utility ----
+    let toastTimeout;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = msg;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3600);
+    }
+
+    // ---- Song Builder Modal ----
+    const songModal = document.getElementById('song-modal');
+    const modalOccasion = document.getElementById('modal-occasion');
+
+    function openSongModal(occasion = '') {
+      if (occasion) {
+        for (let opt of modalOccasion.options) {
+          if (opt.value.toLowerCase().includes(occasion.toLowerCase())) {
+            modalOccasion.value = opt.value;
+            break;
+          }
+        }
+      }
+      songModal.classList.remove('hidden');
+      songModal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSongModal() {
+      songModal.classList.add('hidden');
+      songModal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    songModal.addEventListener('click', (e) => {
+      if (e.target === songModal) closeSongModal();
+    });
+
+    document.getElementById('song-builder-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      closeSongModal();
+      e.target.reset();
+      showToast('Awesome! Your Songs Pathner draft has been started.');
+    });
+
+    // ---- Newsletter Form ----
+    document.getElementById('newsletter-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('newsletter-email').value = '';
+      showToast('Welcome to Songs Pathner! Check your inbox soon.');
+    });
+
+    // ---- Interactive Web Audio Synth Preview Engine ----
+    // Plays gentle, unique melodic chords for each story card without needing external MP3 files
+    let audioCtx = null;
+    let currentTrack = null;
+    let noteTimer = null;
+    let secondsTimer = null;
+    let elapsed = 0;
+
+    const melodies = {
+      hero:      [261.63, 329.63, 392.00, 493.88, 523.25, 493.88, 392.00, 329.63], // Warm Cmaj7
+      wife:      [293.66, 369.99, 440.00, 554.37, 587.33, 440.00, 369.99, 329.63], // Romantic Dmaj7
+      father:    [220.00, 277.18, 329.63, 440.00, 392.00, 329.63, 277.18, 220.00], // Nostalgic A major
+      friend:    [329.63, 392.00, 493.88, 587.33, 659.25, 587.33, 493.88, 392.00], // Bright Em9 / G
+      littleone: [349.23, 440.00, 523.25, 659.25, 523.25, 440.00, 392.00, 349.23], // Dreamy Lullaby Fmaj7
+    };
+
+    function playSoftNote(freq) {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.09, audioCtx.currentTime + 0.08);
+      gain.gain.exponentialRampToValueAtTime(0.0008, audioCtx.currentTime + 1.1);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 1.15);
+    }
+
+    function stopCurrentTrack() {
+      clearInterval(noteTimer);
+      clearInterval(secondsTimer);
+      elapsed = 0;
+
+      // Reset Hero UI
+      const heroWave = document.getElementById('hero-waveform');
+      const heroBtn = document.getElementById('btn-hero');
+      const heroTime = document.getElementById('hero-time');
+      heroWave.classList.remove('is-playing');
+      heroBtn.innerHTML = '<i data-lucide="play" class="w-6 h-6 fill-current ml-0.5"></i>';
+      heroTime.textContent = '0:00';
+
+      // Reset Story Cards UI
+      ['wife', 'father', 'friend', 'littleone'].forEach(id => {
+        const card = document.getElementById(`card-${id}`);
+        if (card) {
+          card.classList.remove('ring-2', 'ring-brand-lime');
+          const badge = card.querySelector('.play-badge');
+          if (badge) {
+            badge.classList.remove('bg-brand-lime', 'text-brand-navy');
+            badge.classList.add('bg-white/10', 'text-white');
+            badge.innerHTML = '<i data-lucide="play" class="w-3.5 h-3.5 fill-current ml-0.5"></i>';
+          }
+        }
+      });
+
+      currentTrack = null;
+      lucide.createIcons();
+    }
+
+    function toggleTrack(trackId) {
+      if (currentTrack === trackId) {
+        stopCurrentTrack();
+        return;
+      }
+
+      stopCurrentTrack();
+      currentTrack = trackId;
+
+      const notes = melodies[trackId] || melodies.hero;
+      let step = 0;
+
+      // Update UI based on track
+      if (trackId === 'hero') {
+        document.getElementById('hero-waveform').classList.add('is-playing');
+        document.getElementById('btn-hero').innerHTML = '<i data-lucide="pause" class="w-6 h-6 fill-current"></i>';
+        secondsTimer = setInterval(() => {
+          elapsed++;
+          const sec = elapsed < 10 ? `0${elapsed}` : elapsed;
+          document.getElementById('hero-time').textContent = `0:${sec}`;
+          if (elapsed >= 16) stopCurrentTrack();
+        }, 1000);
+      } else {
+        const card = document.getElementById(`card-${trackId}`);
+        card.classList.add('ring-2', 'ring-brand-lime');
+        const badge = card.querySelector('.play-badge');
+        badge.classList.remove('bg-white/10', 'text-white');
+        badge.classList.add('bg-brand-lime', 'text-brand-navy');
+        badge.innerHTML = '<i data-lucide="pause" class="w-3.5 h-3.5 fill-current"></i>';
+        showToast(`Playing preview: "${card.querySelector('h3').textContent}"`);
+      }
+
+      lucide.createIcons();
+
+      // Play melody loop
+      playSoftNote(notes[step++ % notes.length]);
+      noteTimer = setInterval(() => {
+        playSoftNote(notes[step++ % notes.length]);
+        if (step >= 24) stopCurrentTrack();
+      }, 520);
+    }
+  </script>
+</body>
+</html>
